@@ -39,7 +39,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player(room['outside'], 'human', 'paladin')
+player = Player(room['outside'], 'Human', 'Paladin')
 
 
 
@@ -56,22 +56,46 @@ player = Player(room['outside'], 'human', 'paladin')
 
 
 while True:
+# game opens
     print(f"{player.species},{player.job} is currently in the {player.room.name}.\n")
     print(f"{player.room.description}.\n")
-    command = input("Where would you like to go? You can try to go n, s, e, w or exit by typing 'q'.\n")
-    while command not in ('n', 's', 'e', 'w', 'q'):
-        print("That command was not recognized, please try again. The valid options are 'n', 's', 'e', 'w' or exit by typing 'q'.\n")
+
+# repeat turn prompt to select move or action 
+    command = input("Would you like to move or do an action? Push m for move or a for action" )
+    if command not in ('m', 'a'):
+        print('Must select m or a, please try again.') 
+
+
+# if action selected
+# something wrong with first line
+    if command == 'a' and player.room is {room['outside']}: 
+        print(f"{player.species},{player.job} is dancing.")
+    else:
+        if {player.room.name} is not {room['outside']}:
+            input("Would you like to know which items are in the room?")
+
+# if move selected
+    if command == 'm': 
+       command = input("Where would you like to go? You can try to go n, s, e, w or exit by typing 'q'.\n")
+    else: 
+        if command not in ('n', 's', 'e', 'w', 'q'):
+            print("That command was not recognized, please try again. The valid options are 'n', 's', 'e', 'w' or exit by typing 'q'.\n")
+        else:
+            if command == 'n' and player.room.n_to is not None:
+                player.room = player.room.n_to
+            elif command == 's' and player.room.s_to is not None:
+                player.room = player.room.s_to
+            elif command == 'e' and player.room.e_to is not None:
+                 player.room = player.room.e_to
+            elif command == 'w' and player.room.w_to is not None:
+                player.room = player.room.w_to
+            else:
+                print("You have hit a wall, please try again!")
+
+
+# if quit selected 
     if command == 'q':
         print('Fare Thee Well!\n')
         exit()
-    else:
-        if command == 'n' and player.room.n_to is not None:
-            player.room = player.room.n_to
-        elif command == 's' and player.room.s_to is not None:
-            player.room = player.room.s_to
-        elif command == 'e' and player.room.e_to is not None:
-            player.room = player.room.e_to
-        elif command == 'w' and player.room.w_to is not None:
-            player.room = player.room.w_to
-        else:
-            print("You have hit a wall, please try again!")
+
+ 

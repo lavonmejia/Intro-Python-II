@@ -10,6 +10,7 @@ class Player():
         self.room = room
         self.species = species
         self.job = job
+        self.inventory = []
     #     self.specs = specs
 
     #     # #Specs
