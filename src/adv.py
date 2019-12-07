@@ -60,6 +60,10 @@ room['narrow'].add_item(items['potion'])
 # Make a new player object that is currently in the 'outside' room.
 player = Player(room['outside'], 'Human', 'Paladin')
 
+#add items to inventory
+player.add_to_inventory(items['mallet']) 
+player.add_to_inventory(items['notebook'])
+
 
 
 # Write a loop that:
@@ -76,46 +80,58 @@ player = Player(room['outside'], 'Human', 'Paladin')
 
 while True:
 # game opens
-    print()
     print(f"YOU, a {player.species},{player.job} are currently in the {player.room.name}.\n")
+    print(f"You, are carrying:\n {player.list_inventory()}")
     print(f"Look around, {player.room.description}.\n")
-    print(f"In this room, there is a: {player.room.items}")
-    print()
+    print(f"In this room, you see: \n{player.room.list_items()}")
 
 # repeat turn prompt to select move or action 
-    command = input("Would you like to move or do an action? Push m for move or a for action" )
+    command = input("Would you like to move, interact with items or do an action? Push 'm' for move/item interaction or 'a' for action\n" )
     if command not in ('m', 'a'):
-        print('Must select m or a, please try again.') 
-
+        print("******")
+        print('Must select m or a, please try again.')
+        print("******")
+        continue
 
 # if action selected
 # something wrong with first line
-    if command == 'a' and player.room is room['outside']: 
+    elif command == 'a' and player.room is room['outside']: 
+        print("******")
         print(f"{player.species},{player.job} is dancing.")
-    elif command == 'a' and {player.room.name} is not {room['outside'].name}:
-        input("Would you like to know which items are in the room?")
-    
+        print("******")
+        continue
+    elif command == 'a' and {player.room.name} is not {room['outside']}:
+        print(f"{player.species},{player.job} is caroling.")
+        continue
 # if move selected
-    elif command == 'm': 
-       command = input("Where would you like to go? You can try to go n, s, e, w or exit by typing 'q'.\n")
-    else: 
-        if command not in ('n', 's', 'e', 'w', 'q'):
-            print("That command was not recognized, please try again. The valid options are 'n', 's', 'e', 'w' or exit by typing 'q'.\n")
+    command = input("Where would you like to go? You can try to go n, s, e, w, drop [item], take [item] or exit by typing 'q'. \n")
+    
+    command = command.split()
+
+    if (len(command) == 1 and command[0] not in ('n', 's', 'e', 'w', 'q')) or (len(command) == 2 and command[0] not in ('drop', 'take')):
+        print("That command was not recognized, please try again. The valid options are 'n', 's', 'e', 'w' or exit by typing 'q'.\n")
+        continue
+    elif len(command) == 1:
+        if command[0] == 'n' and player.room.n_to is not None:
+            player.room = player.room.n_to
+        elif command[0] == 's' and player.room.s_to is not None:
+            player.room = player.room.s_to
+        elif command[0] == 'e' and player.room.e_to is not None:
+                player.room = player.room.e_to
+        elif command[0] == 'w' and player.room.w_to is not None:
+            player.room = player.room.w_to
         else:
-            if command == 'n' and player.room.n_to is not None:
-                player.room = player.room.n_to
-                # print(player.room)
-            elif command == 's' and player.room.s_to is not None:
-                player.room = player.room.s_to
-                # print(player.room)
-            elif command == 'e' and player.room.e_to is not None:
-                 player.room = player.room.e_to
-                #  print(player.room)
-            elif command == 'w' and player.room.w_to is not None:
-                player.room = player.room.w_to
-                # print(player.room)
-            else:
-                print("You have hit a wall, please try again!")
+            print("You have hit a wall, please try again!")
+    elif (len(command)== 2 and command[0] == 'take'):
+        if player.room.item_here(command[1]):
+            player.add_to_inventory(items[command[1]])
+            player.room.items.remove(items[command[1]])
+        continue
+    elif (len(command)== 2 and command[0] == 'drop'):
+        continue
+
+
+
 
 
 # if quit selected 

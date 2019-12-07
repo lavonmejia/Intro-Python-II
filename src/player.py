@@ -15,8 +15,16 @@ class Player():
         self.inventory = []
 
 
-    def add_to_inventory(self, player):
-        self.inventory.append(player)
+    def add_to_inventory(self, item):
+        self.inventory.append(item)
+
+    def list_inventory(self):
+        i = 1
+        pretty_list = ''
+        for item in self.inventory:
+            pretty_list += f"{i}) {item.name} - {item.description}\n"
+            i += 1
+        return pretty_list
 
 
     #     self.specs = specs
