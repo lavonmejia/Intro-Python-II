@@ -1,3 +1,5 @@
+from item import Item  
+
 # Write a class to hold player information, e.g. what room they are in
 # currently.
 
@@ -11,6 +13,12 @@ class Player():
         self.species = species
         self.job = job
         self.inventory = []
+
+
+    def add_to_inventory(self, player):
+        self.inventory.append(player)
+
+
     #     self.specs = specs
 
     #     # #Specs
