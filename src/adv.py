@@ -108,35 +108,38 @@ while True:
     
     command = command.split()
 
-    if (len(command) == 1 and command[0] not in ('n', 's', 'e', 'w', 'q')) or (len(command) == 2 and command[0] not in ('drop', 'take')):
+    if (len(command) == 1 and command[0] not in ('n', 's', 'e', 'w', 'q', 'i')) or (len(command) == 2 and command[0] not in ('drop', 'take')):
         print("That command was not recognized, please try again. The valid options are 'n', 's', 'e', 'w' or exit by typing 'q'.\n")
         continue
     elif len(command) == 1:
         if command[0] == 'n' and player.room.n_to is not None:
             player.room = player.room.n_to
+            continue
         elif command[0] == 's' and player.room.s_to is not None:
             player.room = player.room.s_to
+            continue
         elif command[0] == 'e' and player.room.e_to is not None:
-                player.room = player.room.e_to
+            player.room = player.room.e_to
+            continue
         elif command[0] == 'w' and player.room.w_to is not None:
             player.room = player.room.w_to
+            continue
+        elif command[0] == 'i':
+            player.list_inventory()
+            continue
+        elif command[0] == 'q':
+            print('Fare thee well!')
+            exit()
         else:
             print("You have hit a wall, please try again!")
     elif (len(command)== 2 and command[0] == 'take'):
         if player.room.item_here(command[1]):
             player.add_to_inventory(items[command[1]])
             player.room.items.remove(items[command[1]])
+            print(f"You have picked up {items[command[1]].name}.")
         continue
     elif (len(command)== 2 and command[0] == 'drop'):
+        player.inventory.remove(command[1])
+        print(f"You have dropped {items[command[1]].name}.")
         continue
-
-
-
-
-
-# if quit selected 
-    if command == 'q':
-        print('Fare Thee Well!\n')
-        exit()
-
  
